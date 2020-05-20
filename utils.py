@@ -20,6 +20,8 @@ def extract_author_names_of_papers(page):
     authors_list = [x.text for i, x in enumerate(page.findall("div", attrs={"class": "gs_gray"})) if i%2==0]
     return authors_list
 
+# TODO: fix TypeError: 'NoneType' object is not callable from above function
+
 def get_author_positions(authors_list, author_name):
     authors_lists = [names_str.split(", ") for names_str in authors_list]
     author_positions = {}
