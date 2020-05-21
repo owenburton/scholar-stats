@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
 from utils import *
 
@@ -14,12 +15,22 @@ if url:
     st.text(author_name)
 
     authors_list = extract_author_names_of_papers(page)
-    st.text(authors_list)
-
-    ## TODO: fix TypeError: 'NoneType' object is not callable from above code
     
-    # author_positions = get_author_positions(authors_list, author_name)
-    # ordered_positions = order_author_positions(author_positions)
+    author_positions = get_author_positions(authors_list, author_name)
+    ordered_positions = order_author_positions(author_positions)
 
-    # positions_df = pd.DataFrame.from_dict(ordered_positions)
-    # st.bar_chart(positions_df)
+    positions = list(ordered_positions.keys())
+    frequency = list(ordered_positions.values())
+
+    positions_df = pd.DataFrame({
+        "position": positions,
+        "frequency": frequency
+    })
+
+    chart = alt.Chart(positions_df).mark_bar().encode(
+        x='position', 
+        y='frequency',
+        color=alt.Color('position', scale=alt.Scale(scheme='dark2'))
+        ).configure_axisX(labelAngle=0)
+
+    st.altair_chart(chart, use_container_width=True)
