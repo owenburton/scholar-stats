@@ -4,12 +4,16 @@ import altair as alt
 
 from utils import *
 
+from selenium.webdriver import Chrome
+
+driver = Chrome()
+
 st.title("scholar stats")
 
 url = st.text_input("copy/paste the url of a scholar profile from google scholars")
 
 if url:
-    page = scrape_scholar_from_url(url)
+    page = scrape_scholar_from_url(driver, url)
 
     author_name = get_author_name(page)
     st.text(author_name)

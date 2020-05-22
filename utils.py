@@ -1,12 +1,26 @@
-import requests
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 from fuzzywuzzy import process
 
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-def scrape_scholar_from_url(url):
-    content = requests.get(url).text
-    page = BeautifulSoup(content, "lxml")
+def scrape_scholar_from_url(driver, url):
+    driver.get(url)
+    button_xpath = "/html/body/div/div[13]/div[2]/div/div[4]/form/div[2]/div/button"
+    
+    while True:  
+        try:
+            button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, button_xpath)))
+            button.click()
+            
+        except TimeoutException:
+            break
+
+    html = driver.page_source
+    page = BeautifulSoup(html, "lxml")
     return page
 
 def get_author_name(page):
