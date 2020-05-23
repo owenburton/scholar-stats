@@ -4,9 +4,11 @@ import altair as alt
 
 from utils import *
 
-from selenium.webdriver import Chrome
+from selenium.webdriver import PhantomJS
 
-driver = Chrome()
+# TODO: switch to headless chrome, as phantomjs is deprecated
+
+driver = PhantomJS()
 
 st.title("scholar stats")
 
@@ -30,6 +32,8 @@ if url:
         "position": positions,
         "frequency": frequency
     })
+
+    ## TODO: move chart specifics to utls
 
     chart = alt.Chart(positions_df).mark_bar().encode(
         x='position', 
