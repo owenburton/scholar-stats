@@ -34,7 +34,17 @@ if url:
     chart = alt.Chart(positions_df).mark_bar().encode(
         x='position', 
         y='frequency',
-        color=alt.Color('position', scale=alt.Scale(scheme='dark2'))
-        ).configure_axisX(labelAngle=0)
+        color=alt.Color(
+            "position", 
+            scale=alt.Scale(scheme="greenblue"), 
+            legend=None
+            )
+        ).configure_axis(
+            grid=False
+        ).configure_axisX(
+            labelAngle=0
+        ).configure_view(
+            strokeWidth=0
+        )
 
     st.altair_chart(chart, use_container_width=True)
