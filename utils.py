@@ -21,11 +21,13 @@ def scrape_scholar_from_url(driver, url):
 
     html = driver.page_source
     page = BeautifulSoup(html, "lxml")
+
     return page
 
 def get_author_name(page):
     page_title = page.find("title").string
     author_name = page_title.split(" - ")[0]
+
     return author_name
 
 def extract_author_names_of_papers(page):
@@ -36,25 +38,50 @@ def extract_author_names_of_papers(page):
         
     # remove extra gs_gray classes found (the journal names)
     authors_list = [text for i,text in enumerate(authors_journals) if i%2==0]
-    return authors_list
+
+    # make lists of each group of names
+    author_lists = [names_str.split(", ") for names_str in authors_list]
+
+    return author_lists
+
+def extract_citation_counts(page):
+    # get citations for each paper 
+    citations_list = []
+    for td in page.find_all("td", attrs={"class": "gsc_a_c"}):
+        citation = td.find("a").contents
+        citations_list.append(citation)
+
+    # format citations
+    citations_list = [int(c[0]) if len(c)==1 else None for c in citations_list]
+
+    return citations_list
 
 
-def get_author_positions(authors_list, author_name):
-    authors_lists = [names_str.split(", ") for names_str in authors_list]
+def get_metrics(author_lists, citations_list, author_name):
     author_positions = {}
+    citations_by_author_position = {}
 
-    for names_list in authors_lists:
-        match = process.extractOne(author_name, names_list)[0]
-
-        for i, author in enumerate(names_list):
-
+    for names, c in zip(author_lists, citations_list):
+        match = process.extractOne(author_name, names)[0]
+        
+        for i, author in enumerate(names):
+            
             if author == match:
                 if str(i+1) in author_positions:
                     author_positions[str(i+1)] += 1
+                    if c:
+                        citations_by_author_position[str(i+1)] += c
+
                 else:
                     author_positions[str(i+1)] = 1
+                    if c:
+                        citations_by_author_position[str(i+1)] = c
                 break
-    return author_positions
 
-def order_author_positions(author_positions):
-    return OrderedDict(sorted(author_positions.items()))
+    return author_positions, citations_by_author_position
+
+def order_stuff(dct):
+    return OrderedDict(sorted(dct.items()))
+
+def order_dicts(dict1, dict2):
+    return order_stuff(dict1), order_stuff(dict2)

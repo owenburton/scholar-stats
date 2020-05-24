@@ -7,6 +7,8 @@ from utils import *
 from selenium.webdriver import PhantomJS
 
 # TODO: switch to headless chrome, as phantomjs is deprecated
+# to deploy: you could just deploy the frontend streamlit on whatever works, and 
+# hit your scraping api that's on cloud run: https://dev.to/googlecloud/using-headless-chrome-with-cloud-run-3fdp
 
 driver = PhantomJS()
 
@@ -21,12 +23,16 @@ if url:
     st.text(author_name)
 
     authors_list = extract_author_names_of_papers(page)
+    citations_list = extract_citation_counts(page)
     
-    author_positions = get_author_positions(authors_list, author_name)
-    ordered_positions = order_author_positions(author_positions)
+    positions, citations = get_metrics(authors_list, citations_list, author_name)
+    ordered_positions, ordered_citations = order_dicts(positions, citations)
 
-    positions = list(ordered_positions.keys())
-    frequency = list(ordered_positions.values())
+    positions = list(ordered_citations.keys())
+    frequency = list(ordered_citations.values())
+
+    # positions = list(ordered_positions.keys())
+    # frequency = list(ordered_positions.values())
 
     positions_df = pd.DataFrame({
         "position": positions,
