@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import altair as alt
 
 from utils import *
 
@@ -28,33 +27,24 @@ if url:
     positions, citations = get_metrics(authors_list, citations_list, author_name)
     ordered_positions, ordered_citations = order_dicts(positions, citations)
 
-    positions = list(ordered_citations.keys())
-    frequency = list(ordered_citations.values())
+    positions1 = list(ordered_citations.keys())
+    citation_counts = list(ordered_citations.values())
 
-    # positions = list(ordered_positions.keys())
-    # frequency = list(ordered_positions.values())
+    positions2 = list(ordered_positions.keys())
+    position_counts = list(ordered_positions.values())
 
-    positions_df = pd.DataFrame({
-        "position": positions,
-        "frequency": frequency
+    citations_df = pd.DataFrame({
+        "position": positions1,
+        "citations": citation_counts
     })
 
-    ## TODO: move chart specifics to utls
+    positions_df = pd.DataFrame({
+        "position": positions2,
+        "frequency": position_counts
+    })
 
-    chart = alt.Chart(positions_df).mark_bar().encode(
-        x='position', 
-        y='frequency',
-        color=alt.Color(
-            "position", 
-            scale=alt.Scale(scheme="greenblue"), 
-            legend=None
-            )
-        ).configure_axis(
-            grid=False
-        ).configure_axisX(
-            labelAngle=0
-        ).configure_view(
-            strokeWidth=0
-        )
+    citations_chart = make_chart(citations_df, "citations")
+    positions_chart = make_chart(positions_df, "frequency")
 
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(citations_chart, use_container_width=True)
+    st.altair_chart(positions_chart, use_container_width=True)

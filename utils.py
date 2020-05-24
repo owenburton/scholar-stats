@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 from fuzzywuzzy import process
+import altair as alt
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -85,3 +86,22 @@ def order_stuff(dct):
 
 def order_dicts(dict1, dict2):
     return order_stuff(dict1), order_stuff(dict2)
+
+def make_chart(df, y_label_str):
+    chart = alt.Chart(df).mark_bar().encode(
+        x='position', 
+        y=y_label_str,
+        color=alt.Color(
+            "position", 
+            scale=alt.Scale(scheme="greenblue"), 
+            legend=None
+            )
+        ).configure_axis(
+            grid=False
+        ).configure_axisX(
+            labelAngle=0
+        ).configure_view(
+            strokeWidth=0
+        )
+    
+    return chart
