@@ -25,11 +25,13 @@ def scrape_scholar_from_url(driver, url):
 
     return page
 
+
 def get_author_name(page):
     page_title = page.find("title").string
     author_name = page_title.split(" - ")[0]
 
     return author_name
+
 
 def extract_author_names_of_papers(page):
     # get authors of each paper
@@ -44,6 +46,7 @@ def extract_author_names_of_papers(page):
     author_lists = [names_str.split(", ") for names_str in authors_list]
 
     return author_lists
+
 
 def extract_citation_counts(page):
     # get citations for each paper 
@@ -81,11 +84,14 @@ def get_metrics(author_lists, citations_list, author_name):
 
     return author_positions, citations_by_author_position
 
-def order_stuff(dct):
+
+def order_one(dct):
     return OrderedDict(sorted(dct.items()))
 
+
 def order_dicts(dict1, dict2):
-    return order_stuff(dict1), order_stuff(dict2)
+    return order_one(dict1), order_one(dict2)
+
 
 def make_chart(df, y_label_str):
     chart = alt.Chart(df).mark_bar().encode(
