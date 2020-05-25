@@ -3,13 +3,16 @@ import pandas as pd
 
 from utils import *
 
-from selenium.webdriver import PhantomJS
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 
-# TODO: switch to headless chrome, as phantomjs is deprecated
+# TODO:
 # to deploy: you could just deploy the frontend streamlit on whatever works, and 
 # hit your scraping api that's on cloud run: https://dev.to/googlecloud/using-headless-chrome-with-cloud-run-3fdp
 
-driver = PhantomJS()
+options = Options()
+options.headless = True
+driver = Chrome(options=options)
 
 st.title("scholar stats")
 
