@@ -7,16 +7,19 @@ import utils
 app = Flask(__name__)
 
 options = ChromeOptions()
-options.headless = True
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+options.add_argument("window-size=1024,768")
+options.add_argument("--no-sandbox")
 
 driver = Chrome(chrome_options=options)
 
 
-@app.route("/")
+@app.route("/", methods=["POST"])
 def scrape():
-    '''route expects a valid Google Scholar profile url, returns stats from that profile'''
+    """route expects a valid Google Scholar profile url, returns stats from that profile"""
     
-    url = request.get_json(force=True)['url']
+    url = request.get_json(force=True)["url"]
 
     assert type(url)==str
 

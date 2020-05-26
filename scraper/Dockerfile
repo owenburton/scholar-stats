@@ -15,9 +15,9 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Copy local code to container image
-ENV APP_HOME /app 
+ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . .
 
 # Run gunicorn webserver on container startup
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:APP
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:app
