@@ -7,6 +7,15 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
 # TODO:
+# write description of the app
+# insert a gif of how it works
+# add titles to the graphs
+# add author picture
+# add in a slider to sort by year
+# have them just type in a name, then choose one from dropdown
+# summarize most impactful work (T5 summarization)
+# add a cache of scholar data for fast lookups
+
 # to deploy: you could just deploy the frontend streamlit on whatever works, and 
 # hit your scraping api that's on cloud run: https://dev.to/googlecloud/using-headless-chrome-with-cloud-run-3fdp
 
@@ -14,9 +23,23 @@ options = Options()
 options.headless = True
 driver = Chrome(options=options)
 
-st.title("scholar stats")
+st.title("Scholar Stats")
 
-url = st.text_input("copy/paste the url of a scholar profile from google scholars")
+st.write(
+    """
+    Scholar Stats makes it easier to gauge a researcher's contributions.\n
+
+    While [Google Scholar](https://scholar.google.com/citations?user=JicYPdAAAAAJ&hl=en&oi=ao) provides summary metrics that are often used in hiring, 
+    promotions, and other important decisions, those metrics don't give a full picture of that person's contributions
+    to their field. Scholar Stats improves upon those Scholar profiles by layering in the 
+    researcher's individual level of work for each of their  publications.
+    """
+    )
+
+example_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
+url = st.text_input(
+    "copy/paste the url of a scholar profile from google scholars",
+    example_url)
 
 if url:
     page = scrape_scholar_from_url(driver, url)
