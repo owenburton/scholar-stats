@@ -7,9 +7,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
 # TODO:
-# write description of the app
 # insert a gif of how it works
-# add titles to the graphs
 # add author picture
 # add in a slider to sort by year
 # have them just type in a name, then choose one from dropdown
@@ -69,8 +67,16 @@ if url:
         "frequency": position_counts
     })
 
-    citations_chart = make_chart(citations_df, "citations")
-    positions_chart = make_chart(positions_df, "frequency")
+    citations_chart = make_chart(
+        citations_df, 
+        y_label_str="citations",
+        title_str="total citations by author position"
+        )
+    positions_chart = make_chart(
+        positions_df, 
+        y_label_str="frequency",
+        title_str="total publications by author position"
+        )
 
     st.altair_chart(citations_chart, use_container_width=True)
     st.altair_chart(positions_chart, use_container_width=True)

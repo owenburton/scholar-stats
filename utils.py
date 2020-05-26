@@ -93,7 +93,7 @@ def order_dicts(dict1, dict2):
     return order_one(dict1), order_one(dict2)
 
 
-def make_chart(df, y_label_str):
+def make_chart(df, y_label_str, title_str):
     chart = alt.Chart(df).mark_bar().encode(
         x='position', 
         y=y_label_str,
@@ -102,6 +102,8 @@ def make_chart(df, y_label_str):
             scale=alt.Scale(scheme="greenblue"), 
             legend=None
             )
+        ).properties(
+            title=title_str
         ).configure_axis(
             grid=False
         ).configure_axisX(
