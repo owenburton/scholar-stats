@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
+from collections import OrderedDict
 from fuzzywuzzy import process
+import altair as alt
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -81,3 +83,33 @@ def get_metrics(author_lists, citations_list, author_name):
                 break
 
     return author_positions, citations_by_author_position
+
+
+def order_one(dct):
+    return OrderedDict(sorted(dct.items()))
+
+
+def order_dicts(dict1, dict2):
+    return order_one(dict1), order_one(dict2)
+
+
+def make_chart(df, y_label_str, title_str):
+    chart = alt.Chart(df).mark_bar().encode(
+        x='position', 
+        y=y_label_str,
+        color=alt.Color(
+            "position", 
+            scale=alt.Scale(scheme="greenblue"), 
+            legend=None
+            )
+        ).properties(
+            title=title_str
+        ).configure_axis(
+            grid=False
+        ).configure_axisX(
+            labelAngle=0
+        ).configure_view(
+            strokeWidth=0
+        )
+    
+    return chart
