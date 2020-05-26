@@ -7,6 +7,8 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
 # TODO:
+# deploy (see below comment)
+
 # insert a gif of how it works
 # add author picture
 # add in a slider to sort by year
