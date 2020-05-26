@@ -5,3 +5,4 @@ chromedriver-binary==83.0.4103.39
 fuzzywuzzy==0.18.0
 python-Levenshtein==0.12.0
 beautifulsoup4==4.9.1
+lxml==4.5.1
