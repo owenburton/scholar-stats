@@ -3,26 +3,6 @@ import pandas as pd
 
 from utils import *
 
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-
-# TODO:
-# deploy (see below comment)
-
-# insert a gif of how it works
-# add author picture
-# add in a slider to sort by year
-# have them just type in a name, then choose one from dropdown
-# summarize most impactful work (T5 summarization)
-# add a cache of scholar data for fast lookups
-
-# to deploy: you could just deploy the frontend streamlit on whatever works, and 
-# hit your scraping api that's on cloud run: https://dev.to/googlecloud/using-headless-chrome-with-cloud-run-3fdp
-
-options = Options()
-options.headless = True
-driver = Chrome(options=options)
-
 st.title("Scholar Stats")
 
 st.write(
@@ -42,15 +22,9 @@ url = st.text_input(
     example_url)
 
 if url:
-    page = scrape_scholar_from_url(driver, url)
+    response = hit_scraper_api(url)
+    positions, citations = response["positions"], response["citations"]
 
-    author_name = get_author_name(page)
-    st.text(author_name)
-
-    authors_list = extract_author_names_of_papers(page)
-    citations_list = extract_citation_counts(page)
-    
-    positions, citations = get_metrics(authors_list, citations_list, author_name)
     ordered_positions, ordered_citations = order_dicts(positions, citations)
 
     positions1 = list(ordered_citations.keys())

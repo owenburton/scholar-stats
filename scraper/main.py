@@ -32,7 +32,11 @@ def scrape():
     
     positions, citations = get_metrics(authors_list, citations_list, author_name)
 
-    response = {"positions": positions, "citations": citations}
+    response = {
+        "name": author_name, 
+        "positions": positions, 
+        "citations": citations
+        }
 
     return jsonify(response)
 
