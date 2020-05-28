@@ -1,7 +1,5 @@
 # TODO:
 
-# update deployed scraper to return author name
-
 # insert a gif of how it works
 # add author picture
 # add in a slider to sort by year

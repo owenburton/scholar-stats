@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 
 from utils import *
 
@@ -15,6 +16,10 @@ st.write(
     researcher's individual level of work for each of their  publications.
     """
     )
+
+# video_file = open('how-to.mp4', 'rb')
+# video_bytes = video_file.read()
+# st.video(video_bytes)
 
 example_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
 input_url = st.text_input(
