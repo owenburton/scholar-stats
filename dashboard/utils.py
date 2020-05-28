@@ -3,9 +3,18 @@ import altair as alt
 import requests
 
 
+def validate_url(url):
+    try:
+        response = requests.get(url)
+        return response.status_code == requests.codes.ok
+    except:
+        return False
+
+
 def hit_scraper_api(url):
     payload = {"url": url}
-    scraper_url = "https://scholarscraper-st2oqocqiq-uw.a.run.app"
+    # scraper_url = "http://0.0.0.0:8080" # local deploy
+    scraper_url = "https://scholarscraper-st2oqocqiq-uw.a.run.app" # deployed api on Cloud Run
     r = requests.post(url=scraper_url, json=payload) 
 
     return r.json()
