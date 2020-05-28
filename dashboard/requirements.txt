@@ -1,0 +1,4 @@
+requests==2.22.0
+streamlit==0.56.0
+pandas==0.25.3
+altair==4.0.1
