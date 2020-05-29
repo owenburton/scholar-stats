@@ -1,5 +1,8 @@
 # TODO:
 
+# h index by position? ask zack to clarify
+# add last author position to chart
+
 # insert a gif of how it works
 # add author picture
 # add in a slider to sort by year
