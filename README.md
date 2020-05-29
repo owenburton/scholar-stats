@@ -1,7 +1,6 @@
 ## TODO:
 
-# h index by position
-
+# confirm w/ Zack specifics about h-index by co-author & "last co-author" details
 
 ## MAYBE:
 

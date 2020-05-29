@@ -88,7 +88,7 @@ def extract_citation_counts(page):
         citations_list.append(citation)
 
     # format citations
-    citations_list = [int(c[0]) if len(c)==1 else None for c in citations_list]
+    citations_list = [int(c[0]) if len(c)==1 else 0 for c in citations_list]
 
     return citations_list
 
@@ -116,13 +116,11 @@ def get_metrics(author_lists, citations_list, author_name):
             if author == match:
                 if str(i+1) in author_positions:
                     author_positions[str(i+1)] += 1
-                    if c:
-                        citations_by_author_position[str(i+1)] += c
+                    citations_by_author_position[str(i+1)] += c
 
                 else:
                     author_positions[str(i+1)] = 1
-                    if c:
-                        citations_by_author_position[str(i+1)] = c
+                    citations_by_author_position[str(i+1)] = c
                 break
 
     return author_positions, citations_by_author_position
