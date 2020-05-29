@@ -7,6 +7,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 def scrape_scholar_from_url(driver, url):
+    """Scrapes a given scholar profile page by clicking "Show More" button
+    until all publications are shown.
+
+    Arguments:
+        driver {webdriver class} -- this is to automate the clicking and scraping
+        url {string} -- a profile from Google Scholar
+
+    Returns:
+        [BeautifulSoup object] -- [nested data structure of the html]
+    """
     driver.get(url)
     button_xpath = "/html/body/div/div[13]/div[2]/div/div[4]/form/div[2]/div/button"
     
@@ -25,6 +35,14 @@ def scrape_scholar_from_url(driver, url):
 
 
 def get_author_name(page):
+    """Retrieves author's name.
+
+    Arguments:
+        page {BeautifulSoup object} -- nested data structure of the html
+
+    Returns:
+        str -- author's name
+    """
     page_title = page.find("title").string
     author_name = page_title.split(" - ")[0]
 
@@ -32,6 +50,14 @@ def get_author_name(page):
 
 
 def extract_author_names_of_papers(page):
+    """Gets list of co-authors for each publication.
+
+    Arguments:
+        page {BeautifulSoup object} -- nested data structure of html
+
+    Returns:
+        list -- groups of names
+    """
     # get authors of each paper
     authors_journals = []
     for auth in page.find_all("div", attrs={"class": "gs_gray"}):
@@ -47,6 +73,14 @@ def extract_author_names_of_papers(page):
 
 
 def extract_citation_counts(page):
+    """Gets list of citation counts for each publication.
+
+    Arguments:
+        page {BeautifulSoup object} -- nested data structure of html
+
+    Returns:
+        lsit -- a bunch of integers
+    """
     # get citations for each paper 
     citations_list = []
     for td in page.find_all("td", attrs={"class": "gsc_a_c"}):
@@ -60,6 +94,17 @@ def extract_citation_counts(page):
 
 
 def get_metrics(author_lists, citations_list, author_name):
+    """Produces two dictionaries. Both have author positions as keys and 
+    the 
+
+    Arguments:
+        author_lists {[type]} -- [description]
+        citations_list {[type]} -- [description]
+        author_name {[type]} -- [description]
+
+    Returns:
+        [type] -- [description]
+    """
     author_positions = {}
     citations_by_author_position = {}
 
