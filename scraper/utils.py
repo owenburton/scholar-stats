@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 def scrape_scholar_from_url(driver, url):
     """Scrapes a given scholar profile page by clicking "Show More" button
     until all publications are shown.
@@ -129,7 +130,7 @@ def get_hindexes_dict(dataframes):
         if df.shape[0] <= 0:
             hindexes_dict[k] = 0
         else:
-            hindexes_dict[k] = df.shape[0] - 1
+            hindexes_dict[k] = df.shape[0]
         
     return hindexes_dict
 
