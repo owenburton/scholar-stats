@@ -4,9 +4,9 @@ if __name__ == "__main__":
     # zack burton
     # test_url = "https://scholar.google.com/citations?user=X7FY3wUAAAAJ&hl=en&oi=ao"
     # thomas wolf
-    # test_url = "https://scholar.google.com/citations?user=D2H5EFEAAAAJ&hl=en"
+    test_url = "https://scholar.google.com/citations?user=D2H5EFEAAAAJ&hl=en"
     # geoffrey hinton
-    test_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
+    # test_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
     payload = {
         "url": test_url
         } 

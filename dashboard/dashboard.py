@@ -17,11 +17,8 @@ st.write(
     """
     )
 
-# video_file = open('how-to.mp4', 'rb')
-# video_bytes = video_file.read()
-# st.video(video_bytes)
-
-example_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
+# example_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
+example_url = "https://scholar.google.com/citations?user=D2H5EFEAAAAJ&hl=en"
 input_url = st.text_input(
     "copy/paste the url of a scholar profile from google scholars",
     example_url)
@@ -33,39 +30,33 @@ if input_url:
 
         if "name" in response:
             st.text(response["name"])
-            positions, citations = response["positions"], response["citations"]
+
+            # st.json(response)
+            positions, hindexes, citations = response["positions"], response["hindexes"], response["citations"]
 
             ordered_positions, ordered_citations = order_dicts(positions, citations)
 
-            positions1 = list(ordered_citations.keys())
+            positions = list(ordered_citations.keys())
+            hindex_vals = list(hindexes.values())
             citation_counts = list(ordered_citations.values())
+            publication_counts = list(ordered_positions.values())
 
-            positions2 = list(ordered_positions.keys())
-            position_counts = list(ordered_positions.values())
-
-            citations_df = pd.DataFrame({
-                "position": positions1,
+            df = pd.DataFrame({
+                "positions": positions,
+                "h-index": hindex_vals,
+                "publications": publication_counts,
                 "citations": citation_counts
             })
 
-            positions_df = pd.DataFrame({
-                "position": positions2,
-                "frequency": position_counts
-            })
+            df["portion_of_citations"] = (100 * df.citations / df.citations.sum()).round(0)
+            df.portion_of_citations = df.portion_of_citations / 100
 
-            citations_chart = make_chart(
-                citations_df, 
-                y_label_str="citations",
-                title_str="total citations by author position"
-                )
-            positions_chart = make_chart(
-                positions_df, 
-                y_label_str="frequency",
-                title_str="total publications by author position"
-                )
-
+            citations_chart = make_chart(df[["positions", "portion_of_citations"]])
             st.altair_chart(citations_chart, use_container_width=True)
-            st.altair_chart(positions_chart, use_container_width=True)
+
+            df.portion_of_citations = (df.portion_of_citations * 100).astype(str) + '%'
+
+            st.table(df.set_index("positions"))
         
         else:
             st.text(response["message"])
