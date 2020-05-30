@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from fuzzywuzzy import process
+import pandas as pd
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -93,34 +94,88 @@ def extract_citation_counts(page):
     return citations_list
 
 
-def get_metrics(author_lists, citations_list, author_name):
-    """Produces two dictionaries. Both have author positions as keys and 
-    the 
+def get_author_positions_lis(auth_name, auth_lists):
+    ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+    author_positions_lis = []
 
-    Arguments:
-        author_lists {[type]} -- [description]
-        citations_list {[type]} -- [description]
-        author_name {[type]} -- [description]
+    for names in auth_lists:
+        match = process.extractOne(auth_name, names)[0]
 
-    Returns:
-        [type] -- [description]
-    """
-    author_positions = {}
-    citations_by_author_position = {}
-
-    for names, c in zip(author_lists, citations_list):
-        match = process.extractOne(author_name, names)[0]
-        
         for i, author in enumerate(names):
-            
             if author == match:
-                if str(i+1) in author_positions:
-                    author_positions[str(i+1)] += 1
-                    citations_by_author_position[str(i+1)] += c
 
+                if i == len(names)-1 and i > 2:
+                    author_positions_lis.append('last')
                 else:
-                    author_positions[str(i+1)] = 1
-                    citations_by_author_position[str(i+1)] = c
+                    author_positions_lis.append(ordinal(i+1))
                 break
+    return author_positions_lis
 
-    return author_positions, citations_by_author_position
+
+def get_pos_dfs(pos_lis, num_lis):
+    citations_positions_df = pd.DataFrame(list(zip(pos_lis, num_lis)), columns =['positions', 'citations']) 
+    return dict(tuple(citations_positions_df.groupby('positions')))
+
+
+def get_hindexes_dict(dataframes):
+    hindexes_dict = {}
+    
+    for k, df in dataframes.items():
+        df.sort_values('citations')
+        df.index += 1
+        df = df.reset_index()
+        df = df.query('citations >= index')
+        # checking if there are no citations
+        if df.shape[0] <= 0:
+            hindexes_dict[k] = 0
+        else:
+            hindexes_dict[k] = df.shape[0] - 1
+        
+    return hindexes_dict
+
+
+def get_counts_dicts(pos_lis, num_lis):
+    d1 = {}
+    d2 = {}
+
+    for position, num in zip(pos_lis, num_lis):
+        if position in d1:
+            d1[position] += 1
+            d2[position] += num
+        else:
+            d1[position] = 1
+            d2[position] = num
+    return d1, d2
+
+
+# def get_metrics(author_lists, citations_list, author_name):
+#     """Produces two dictionaries. Both have author positions as keys and 
+#     the 
+
+#     Arguments:
+#         author_lists {[type]} -- [description]
+    #     citations_list {[type]} -- [description]
+    #     author_name {[type]} -- [description]
+
+    # Returns:
+    #     [type] -- [description]
+    # """
+    # author_positions = {}
+    # citations_by_author_position = {}
+
+    # for names, c in zip(author_lists, citations_list):
+    #     match = process.extractOne(author_name, names)[0]
+        
+    #     for i, author in enumerate(names):
+            
+    #         if author == match:
+    #             if str(i+1) in author_positions:
+    #                 author_positions[str(i+1)] += 1
+    #                 citations_by_author_position[str(i+1)] += c
+
+    #             else:
+    #                 author_positions[str(i+1)] = 1
+    #                 citations_by_author_position[str(i+1)] = c
+    #             break
+
+    # return author_positions, citations_by_author_position

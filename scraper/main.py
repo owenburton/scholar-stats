@@ -45,17 +45,33 @@ def scrape():
         citations_list = extract_citation_counts(page)
 
         if len(authors_list)==0 or len(citations_list)==0:
-            return jsonify({"message": "No author positions or citations found."})
+            return jsonify({"message": "Either no author positions or no citations found."})
     except:
         return jsonify({"message": "Could not find author positions or citations."})
     
     try:
-        positions, citations = get_metrics(authors_list, citations_list, author_name)
+        auth_pos_lis = get_author_positions_lis(author_name, authors_list)
     except:
-        return jsonify({"message": "Could not get author metrics."})
+        return jsonify({"message": "Couldn't get author positions list."})
+
+    try:
+        dfs = get_pos_dfs(auth_pos_lis, citations_list)
+    except:
+        return jsonify({"message": "Couldn't get citations by position dataframes."})
+    
+    try:
+        hindexes_dict = get_hindexes_dict(dfs)
+    except:
+        return jsonify({"message": "Couldn't get the h-indexes dictionary."})
+
+    try:
+        positions, citations = get_counts_dicts(auth_pos_lis, citations_list)
+    except:
+        return jsonify({"message": "Could not get one of the counts dictionaries."})
 
     response = {
-        "name": author_name, 
+        "name": author_name,
+        "hindexes": hindexes_dict, 
         "positions": positions, 
         "citations": citations
         }
