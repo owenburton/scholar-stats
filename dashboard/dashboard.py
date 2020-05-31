@@ -69,7 +69,7 @@ if input_url:
                 """
                 *Note:* Google Scholar pages don't account for duplicate publications when calculating overall h-index, 
                 but [seem to do so](https://github.com/owenburton/scholar-stats/blob/master/notebooks/scrape-author-positions.ipynb) for total citations. 🔍 
-                This app does not consider duplicates because they're rare.
+                This app does not consider duplicates, because they're rare.
                 """
                 )
 
