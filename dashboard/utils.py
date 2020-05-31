@@ -14,8 +14,8 @@ def validate_url(url):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def hit_scraper_api(url):
     payload = {"url": url}
-    scraper_url = "http://0.0.0.0:8080" # local deploy
-    # scraper_url = "https://scholarscraper-st2oqocqiq-uw.a.run.app" # deployed api on Cloud Run
+    # scraper_url = "http://0.0.0.0:8080" # local deploy
+    scraper_url = "https://scholarscraper-st2oqocqiq-uw.a.run.app" # deployed api on Cloud Run
     r = requests.post(url=scraper_url, json=payload) 
 
     return r.json()

@@ -41,6 +41,11 @@ def scrape():
         return jsonify({"message": "Could not find author name."})
 
     try:
+        role = get_author_role(page)
+    except:
+        return jsonify({"message": "Could not find author's current role."})
+
+    try:
         authors_list = extract_author_names_of_papers(page)
         citations_list = extract_citation_counts(page)
 
@@ -71,6 +76,7 @@ def scrape():
 
     response = {
         "name": author_name,
+        "role": role,
         "hindexes": hindexes_dict, 
         "positions": positions, 
         "citations": citations

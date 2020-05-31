@@ -1,8 +1,5 @@
 ## TODO:
 
-# display scholar current role 
-# group any auth positions above 5 as "over 5th"
-
 ## MAYBE:
 
 # extract publication dates using bs4 (account for dates in pub title)

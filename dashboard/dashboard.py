@@ -38,6 +38,7 @@ if input_url:
             st.write(
                 f"""
                 ### {response['name']}
+                {response['role']}\n
                 overall h-index: {overall_hindex}\n
                 total citations: {total_citations}
                 """)

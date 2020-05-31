@@ -50,6 +50,9 @@ def get_author_name(page):
 
     return author_name
 
+def get_author_role(page):
+    return [x.text for x in page.find_all("div", attrs={"class": "gsc_prf_il"})][0]
+
 
 def extract_author_names_of_papers(page):
     """Gets list of co-authors for each publication.
