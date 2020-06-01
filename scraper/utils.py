@@ -103,18 +103,28 @@ def get_author_positions_lis(auth_name, auth_lists):
     author_positions_lis = []
 
     for names in auth_lists:
-        match = process.extractOne(auth_name, names)[0]
+        try: 
+            match = process.extractOne(auth_name, names, score_cutoff=80)[0]
+        except TypeError: 
+            match = None
+        # print(match)
 
-        for i, author in enumerate(names):
-            if author == match:
+        if match:
+            for i, author in enumerate(names):
+                if author == match:
 
-                if i == len(names)-1 and i > 2:
-                    author_positions_lis.append('last')
-                elif i > 4:
-                    author_positions_lis.append('6th or more')
-                else:
-                    author_positions_lis.append(ordinal(i+1))
-                break
+                    if i == len(names)-1 and i > 2:
+                        author_positions_lis.append('last')
+                    elif i > 4:
+                        author_positions_lis.append('6th or more')
+                    else:
+                        author_positions_lis.append(ordinal(i+1))
+                    break
+        else:
+            if len(names) > 4:
+                author_positions_lis.append('6th or more')
+            else:
+                author_positions_lis.append(ordinal(len(names)))
     return author_positions_lis
 
 

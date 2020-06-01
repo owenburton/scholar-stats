@@ -1,6 +1,11 @@
 ## TODO:
 
+# add your & Zack's contact info at the bottom
+
 ## MAYBE:
+
+# change favicon & website title (currently unsupported by streamlit)
+# https://github.com/streamlit/streamlit/issues/1006
 
 # extract publication dates using bs4 (account for dates in pub title)
 # add in a slider to sort by year
