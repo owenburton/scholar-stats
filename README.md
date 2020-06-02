@@ -1,5 +1,10 @@
 ## TODO:
 
+
+# need to open new window w/ scraped pub links from base page
+# then get full author list from newly opened windows
+# save those author lists
+
 # add your & Zack's contact info at the bottom
 
 ## MAYBE:
