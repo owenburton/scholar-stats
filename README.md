@@ -1,9 +1,7 @@
 ## TODO:
 
-
-# need to open new window w/ scraped pub links from base page
-# then get full author list from newly opened windows
-# save those author lists
+# use proxies/tor for scraping so ur address not blocked by the Googs
+# use multiprocessing to get the authors faster
 
 # add your & Zack's contact info at the bottom
 
