@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 def get_authors(url):
     authors = None
     try:
@@ -27,10 +28,12 @@ def get_authors(url):
     finally:
         return authors
 
+
 def get_authors_list(links_lis):
     with Pool() as p:
         authors_lis = p.map(get_authors, links_lis)
     return authors_lis
+
 
 zack_url = "https://scholar.google.com/citations?user=X7FY3wUAAAAJ&hl=en&oi=ao"
 hinton_url = "https://scholar.google.com/citations?user=JicYPdAAAAAJ&hl=en&oi=ao"

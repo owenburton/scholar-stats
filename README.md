@@ -1,9 +1,9 @@
 ## TODO:
 
-# use proxies/tor for scraping so ur address not blocked by the Googs
-# use multiprocessing to get the authors faster
-
+# write note about the app's accuracy in identifying author positions
 # add your & Zack's contact info at the bottom
+# polish code
+# ask for code reviews
 
 ## MAYBE:
 
