@@ -8,18 +8,17 @@ st.write("Get a clearer view of researchers' contributions.\n")
 
 st.write(
     """
-    While [Google Scholar](https://scholar.google.com/citations?user=JicYPdAAAAAJ&hl=en&oi=ao) provides summary metrics that are often used in hiring, promotions, and other important decisions, those metrics don't give a full picture of that person's contributions to their field.
+    While [Google Scholar](https://scholar.google.com/) provides summary metrics used to quantify individual scientific output (which influences career progression, funding decisions, and designation of accolades), these metrics don't give a full picture of a scientist's contributions to their field.
     
-    💡 This app improves upon those Scholar profiles by layering in the researcher's individual level of work for each of their publications.
+    💡 This app improves upon Google Scholar profiles by approximating a researcher's level of contribution to their publication record, using author byline position as a proxy.
     
     💻 The code is available [here](https://github.com/owenburton/scholar-stats).
     """
     )
 
-# example_url = "https://scholar.google.co.uk/citations?hl=en&user=JicYPdAAAAAJ"
-example_url = "https://scholar.google.com/citations?user=D2H5EFEAAAAJ&hl=en"
+example_url = "https://scholar.google.com/citations?user=5Iqe53IAAAAJ&hl=en&oi=ao"
 input_url = st.text_input(
-    "copy/paste the url of a profile from Google Scholar",
+    "copy & paste the URL of a profile from Google Scholar",
     example_url)
 
 if input_url:
