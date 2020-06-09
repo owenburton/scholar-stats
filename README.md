@@ -2,11 +2,9 @@
 
 # write tests for everything
 # make more OOP (Classes)
-# test scraper & dashboard locally b4 pushing changes
 # more descriptive iterator var names
 # for loop for try/catch blocks
 # write note about the app's accuracy in identifying author positions
-# add your & Zack's contact info at the bottom
 # polish code
 # ask for code reviews
 
@@ -19,7 +17,6 @@
 # add in a slider to sort by year
 
 # database to store name/url pairs
-# insert a gif of how it works
 # add author picture
 # have them just type in a name, then choose one from dropdown
 # summarize most impactful work (T5 summarization)

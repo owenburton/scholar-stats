@@ -31,15 +31,16 @@ def order_dicts(dict1, dict2):
 # @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def make_chart(df):
     return alt.Chart(df).mark_bar().encode(
-        alt.X('portion_of_citations', axis=alt.Axis(title="portion of citations", tickCount=5, format='%')),
-        y='positions',
+        alt.X('portion_of_citations', axis=alt.Axis(title="percentage of citations", tickCount=5, format='%')),
+        alt.Y('positions', axis=alt.Axis(title="author position"), sort=None),
+        # y='author_positions',
         color=alt.Color(
             "positions", 
             scale=alt.Scale(scheme="greenblue"), 
             legend=None
             )
         ).properties(
-            title='total citations by author position'
+            title='citations by author position'
         ).configure_axisX(
             labelAngle=0
         ).configure_axis(

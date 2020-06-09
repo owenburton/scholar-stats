@@ -127,13 +127,15 @@ def get_author_positions_lis(auth_name, auth_lists):
                     if i == len(names)-1 and i > 2:
                         author_positions_lis.append('last')
                     elif i > 4:
-                        author_positions_lis.append('6th or more')
+                        # author_positions_lis.append('6th or more')
+                        author_positions_lis.append('≥ 6th')
                     else:
                         author_positions_lis.append(ordinal(i+1))
                     break
         else:
             if len(names) > 4:
-                author_positions_lis.append('6th or more')
+                # author_positions_lis.append('6th or more')
+                author_positions_lis.append('≥ 6th')
             else:
                 author_positions_lis.append(ordinal(len(names)))
     return author_positions_lis

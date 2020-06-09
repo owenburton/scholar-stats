@@ -18,7 +18,7 @@ st.write(
 
 example_url = "https://scholar.google.com/citations?user=5Iqe53IAAAAJ&hl=en&oi=ao"
 input_url = st.text_input(
-    "copy & paste the URL of a profile from Google Scholar",
+    "Copy & paste the URL of a profile from Google Scholar",
     example_url)
 
 if input_url:
@@ -42,6 +42,8 @@ if input_url:
                 """)
 
             ordered_positions, ordered_citations = order_dicts(positions, citations)
+            ordered_positions.move_to_end('last')
+            ordered_citations.move_to_end('last')
 
             positions = list(ordered_citations.keys())
             hindex_vals = list(hindexes.values())
@@ -64,17 +66,27 @@ if input_url:
             st.text("")
             st.altair_chart(citations_chart, use_container_width=True)
 
-            st.write(
-                """
-                *Note:* Google Scholar pages don't account for duplicate publications when calculating overall h-index, 
-                but [seem to do so](https://github.com/owenburton/scholar-stats/blob/master/notebooks/scrape-author-positions.ipynb) for total citations. 🔍 
-                This app does not consider duplicates, because they're rare.
-                """
-                )
-
             df.portion_of_citations = (df.portion_of_citations * 100).astype(str) + '%'
 
             st.table(df.drop(columns=['portion_of_citations']).set_index("positions"))
+
+            # *Note:* Google Scholar pages don't account for duplicate publications when calculating overall h-index, 
+            #     but [seem to do so](https://github.com/owenburton/scholar-stats/blob/master/notebooks/scrape-author-positions.ipynb) for total citations. 🔍 
+            #     This app does not consider duplicates, because they're rare.
+            st.write(
+                """
+                ⚠️ **Disclaimer**: 
+                - This app inherits shortcomings in the way Google Scholar indexes publication records and citations (e.g., total publication counts include items other than peer-reviewed articles, such as conference abstracts; e.g., citation counts may include citations by indexed items that are not peer reviewed).
+                - Google Scholar profiles truncate the list of co-authors for each publication, so "last author" stats may be innacurate for some profiles.
+                - This app abides by Google’s [Terms of Service](https://policies.google.com/terms?hl=en-US) and is not to be used in any such manner that violates these terms. The user of this app is granted nonexclusive, personal non-profit use.
+
+                ✉️ **Contact**:
+                - Questions? Suggestions? <scholarstats.app@gmail.com>
+                - [Owen Burton](owenburton.github.io) & [Zachary Burton](https://www.linkedin.com/in/zb1/) 
+
+                © Copyright 2020 Owen Burton & Zachary Burton
+                """
+                )
         
         else:
             st.text(response["message"])
