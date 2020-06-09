@@ -82,7 +82,7 @@ if input_url:
 
                 ✉️ **Contact**:
                 - Questions? Suggestions? <scholarstats.app@gmail.com>
-                - [Owen Burton](owenburton.github.io) & [Zachary Burton](https://www.linkedin.com/in/zb1/) 
+                - [Owen Burton](https://owenburton.github.io) & [Zachary Burton](https://www.linkedin.com/in/zb1/) 
 
                 © Copyright 2020 Owen Burton & Zachary Burton
                 """
