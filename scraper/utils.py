@@ -22,14 +22,16 @@ def scrape_scholar_from_url(driver, url):
     driver.get(url)
     button_xpath = "/html/body/div/div[13]/div[2]/div/div[4]/form/div[2]/div/button"
     
+    # click the "Show More" button until all publications are displayed
     while True:  
         try:
             button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, button_xpath)))
             button.click()
-            
+
+        # exit loop when the button is no longer clickable after 2 seconds   
         except TimeoutException:
             break
-
+    
     html = driver.page_source
     page = BeautifulSoup(html, "lxml")
 
@@ -51,7 +53,17 @@ def get_author_name(page):
     return author_name
 
 def get_author_role(page):
-    return [x.text for x in page.find_all("div", attrs={"class": "gsc_prf_il"})][0]
+    """Extracts the researcher's current role from Google Scholar profile page.
+
+    Args:
+        page (BeautifulSoup): html of the scraped profile
+
+    Returns:
+        str: researcher's current role
+    """
+    role_list = [div.text for div in page.find_all("div", attrs={"class": "gsc_prf_il"})]
+
+    return role_list[0]
 
 
 def extract_author_names_of_papers(page):
@@ -69,7 +81,7 @@ def extract_author_names_of_papers(page):
         authors_journals.append(auth.text)
         
     # remove extra gs_gray classes found (the journal names)
-    authors_list = [text for i,text in enumerate(authors_journals) if i%2==0]
+    authors_list = [text for index, text in enumerate(authors_journals) if index % 2 == 0]
 
     # make lists of each group of names
     author_lists = [names_str.split(", ") for names_str in authors_list]
@@ -84,7 +96,7 @@ def extract_citation_counts(page):
         page {BeautifulSoup object} -- nested data structure of html
 
     Returns:
-        lsit -- a bunch of integers
+        list -- a bunch of integers
     """
     # get citations for each paper 
     citations_list = []
@@ -93,7 +105,7 @@ def extract_citation_counts(page):
         citations_list.append(citation)
 
     # format citations
-    citations_list = [int(c[0]) if len(c)==1 else 0 for c in citations_list]
+    citations_list = [int(citation[0]) if len(citation)==1 else 0 for citation in citations_list]
 
     return citations_list
 
@@ -107,7 +119,6 @@ def get_author_positions_lis(auth_name, auth_lists):
             match = process.extractOne(auth_name, names, score_cutoff=80)[0]
         except TypeError: 
             match = None
-        # print(match)
 
         if match:
             for i, author in enumerate(names):
@@ -162,36 +173,3 @@ def get_counts_dicts(pos_lis, num_lis):
             d1[position] = 1
             d2[position] = num
     return d1, d2
-
-
-# def get_metrics(author_lists, citations_list, author_name):
-#     """Produces two dictionaries. Both have author positions as keys and 
-#     the 
-
-#     Arguments:
-#         author_lists {[type]} -- [description]
-    #     citations_list {[type]} -- [description]
-    #     author_name {[type]} -- [description]
-
-    # Returns:
-    #     [type] -- [description]
-    # """
-    # author_positions = {}
-    # citations_by_author_position = {}
-
-    # for names, c in zip(author_lists, citations_list):
-    #     match = process.extractOne(author_name, names)[0]
-        
-    #     for i, author in enumerate(names):
-            
-    #         if author == match:
-    #             if str(i+1) in author_positions:
-    #                 author_positions[str(i+1)] += 1
-    #                 citations_by_author_position[str(i+1)] += c
-
-    #             else:
-    #                 author_positions[str(i+1)] = 1
-    #                 citations_by_author_position[str(i+1)] = c
-    #             break
-
-    # return author_positions, citations_by_author_position

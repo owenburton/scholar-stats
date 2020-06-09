@@ -1,5 +1,10 @@
 ## TODO:
 
+# write tests for everything
+# make more OOP (Classes)
+# test scraper & dashboard locally b4 pushing changes
+# more descriptive iterator var names
+# for loop for try/catch blocks
 # write note about the app's accuracy in identifying author positions
 # add your & Zack's contact info at the bottom
 # polish code
