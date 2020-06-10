@@ -4,7 +4,7 @@ import pandas as pd
 from utils import *
 
 st.title("ScholarStats 📈")
-st.write("Get a clearer view of researchers' contributions.\n")
+st.write("*Get a clearer view of researchers' contributions.*\n")
 
 st.write(
     """
@@ -42,8 +42,10 @@ if input_url:
                 """)
 
             ordered_positions, ordered_citations = order_dicts(positions, citations)
-            ordered_positions.move_to_end('last')
-            ordered_citations.move_to_end('last')
+            if 'last' in ordered_positions:
+                ordered_positions.move_to_end('last')
+            if 'last' in ordered_citations:
+                ordered_citations.move_to_end('last')
 
             positions = list(ordered_citations.keys())
             hindex_vals = list(hindexes.values())
@@ -70,9 +72,6 @@ if input_url:
 
             st.table(df.drop(columns=['portion_of_citations']).set_index("positions"))
 
-            # *Note:* Google Scholar pages don't account for duplicate publications when calculating overall h-index, 
-            #     but [seem to do so](https://github.com/owenburton/scholar-stats/blob/master/notebooks/scrape-author-positions.ipynb) for total citations. 🔍 
-            #     This app does not consider duplicates, because they're rare.
             st.write(
                 """
                 ⚠️ **Disclaimer**: 
