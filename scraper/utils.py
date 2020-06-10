@@ -116,7 +116,7 @@ def get_author_positions_lis(auth_name, auth_lists):
 
     for names in auth_lists:
         try: 
-            match = process.extractOne(auth_name, names, score_cutoff=80)[0]
+            match = process.extractOne(auth_name, names, score_cutoff=75)[0]
         except TypeError: 
             match = None
 
