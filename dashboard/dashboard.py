@@ -3,12 +3,12 @@ import pandas as pd
 
 from utils import *
 
-st.title("Scholar Stats 📈")
+st.title("ScholarStats 📈")
 st.write("Get a clearer view of researchers' contributions.\n")
 
 st.write(
     """
-    While [Google Scholar](https://scholar.google.com/) provides summary metrics used to quantify individual scientific output (which influences career progression, funding decisions, and designation of accolades), these metrics don't give a full picture of a scientist's contributions to their field.
+    While [Google Scholar](https://scholar.google.com/) provides summary metrics used to quantify individual scientific output (which influences careers, funding, accolades, etc.), these metrics don't give a full picture of a scientist's contributions to their field.
     
     💡 This app improves upon Google Scholar profiles by approximating a researcher's level of contribution to their publication record, using author byline position as a proxy.
     
@@ -76,7 +76,7 @@ if input_url:
             st.write(
                 """
                 ⚠️ **Disclaimer**: 
-                - This app inherits shortcomings in the way Google Scholar indexes publication records and citations (e.g., total publication counts include items other than peer-reviewed articles, such as conference abstracts; e.g., citation counts may include citations by indexed items that are not peer reviewed).
+                - This app inherits any shortcomings in the way Google Scholar indexes publication records and citations (e.g., total publication counts include items other than peer-reviewed articles, such as conference abstracts; e.g., citation counts may include citations by indexed items that are not peer reviewed).
                 - Google Scholar profiles truncate the list of co-authors for each publication, so "last author" stats may be innacurate for some profiles.
                 - This app abides by Google’s [Terms of Service](https://policies.google.com/terms?hl=en-US) and is not to be used in any such manner that violates these terms. The user of this app is granted nonexclusive, personal non-profit use.
 
@@ -84,7 +84,7 @@ if input_url:
                 - Questions? Suggestions? <scholarstats.app@gmail.com>
                 - [Owen Burton](https://owenburton.github.io) & [Zachary Burton](https://www.linkedin.com/in/zb1/) 
 
-                © Copyright 2020 Owen Burton & Zachary Burton
+                © Copyright 2020 ScholarStats
                 """
                 )
         
