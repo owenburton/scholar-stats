@@ -1,0 +1,23 @@
+steps:
+    # Build the container image
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['build', '-t', 'gcr.io/scholar-scraper/scholar_scraper', '.']
+    # Push the image to Container Registry
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['push', 'gcr.io/scholar-scraper/scholar_scraper']
+    # Deploy image to Cloud Run
+    - name: 'gcr.io/cloud-builders/gcloud'
+      args:
+      - 'run'
+      - 'deploy'
+      - 'scholar-scraper'
+      - '--image'
+      - 'gcr.io/scholar-scraper/scholar_scraper'
+      - '--region'
+      - 'us-west1'
+      - '--platform'
+      - 'managed'
+      - '--memory'
+      - '512M'
+    images:
+    - gcr.io/scholar-scraper/scholar_scraper
