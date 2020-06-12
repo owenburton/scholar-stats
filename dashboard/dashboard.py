@@ -3,6 +3,7 @@ import pandas as pd
 
 from utils import *
 
+
 st.title("ScholarStats 📈")
 st.write("*Get a clearer view of researchers' contributions.*\n")
 
@@ -23,16 +24,18 @@ input_url = st.text_input(
 
 if input_url:
 
+    # Check if the given URL gives a good response
     if validate_url(input_url):
         response = hit_scraper_api(input_url)
 
+        # Check if any errors during scraping 
         if "name" in response:
-            # st.json(response)
             positions, hindexes, citations = response["positions"], response["hindexes"], response["citations"]
 
             overall_hindex = sum(hindexes.values())
             total_citations = sum(citations.values())
 
+            # Get overall stats and author info
             st.write(
                 f"""
                 ### {response['name']}
@@ -41,6 +44,10 @@ if input_url:
                 total citations: {total_citations}
                 """)
 
+            # Add spacing
+            st.text("")
+
+            # Format author stats for visualization and table
             ordered_positions, ordered_citations = order_dicts(positions, citations)
             if 'last' in ordered_positions:
                 ordered_positions.move_to_end('last')
@@ -59,17 +66,15 @@ if input_url:
                 "citations": citation_counts
             })
 
+            # Get percentages of total citations
             df["portion_of_citations"] = (100 * df.citations / df.citations.sum()).round(0)
             df.portion_of_citations = df.portion_of_citations / 100
 
+            # Display chart
             citations_chart = make_chart(df[["positions", "portion_of_citations"]])
-
-            # add a lil space
-            st.text("")
             st.altair_chart(citations_chart, use_container_width=True)
 
-            df.portion_of_citations = (df.portion_of_citations * 100).astype(str) + '%'
-
+            # Display table
             st.table(df.drop(columns=['portion_of_citations']).set_index("positions"))
 
             st.write(
