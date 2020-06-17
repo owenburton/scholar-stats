@@ -1,14 +1,16 @@
 from bs4 import BeautifulSoup
 from fuzzywuzzy import process
 import pandas as pd
+from typing import List
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.webdriver import WebDriver
 
 
-def scrape_scholar_from_url(driver, url):
+def scrape_scholar_from_url(driver: WebDriver, url: str) -> BeautifulSoup:
     """Scrapes a given scholar profile page by clicking "Show More" button
     until all publications are shown.
 
@@ -38,7 +40,7 @@ def scrape_scholar_from_url(driver, url):
     return page
 
 
-def get_author_name(page):
+def get_author_name(page: BeautifulSoup) -> str:
     """Retrieves author's name.
 
     Arguments:
@@ -52,7 +54,7 @@ def get_author_name(page):
 
     return author_name
 
-def get_author_role(page):
+def get_author_role(page: BeautifulSoup) -> str:
     """Extracts the researcher's current role from Google Scholar profile page.
 
     Args:
@@ -66,7 +68,7 @@ def get_author_role(page):
     return role_list[0]
 
 
-def extract_author_names_of_papers(page):
+def extract_author_names_of_papers(page: BeautifulSoup) -> List[List]:
     """Gets list of co-authors for each publication.
 
     Arguments:
@@ -89,14 +91,14 @@ def extract_author_names_of_papers(page):
     return author_lists
 
 
-def extract_citation_counts(page):
+def extract_citation_counts(page: BeautifulSoup) -> List[int]:
     """Gets list of citation counts for each publication.
 
     Arguments:
         page {BeautifulSoup object} -- nested data structure of html
 
     Returns:
-        list -- a bunch of integers
+        list -- citation counts for each listed publication
     """
     # get citations for each paper 
     citations_list = []
@@ -110,7 +112,7 @@ def extract_citation_counts(page):
     return citations_list
 
 
-def get_author_positions_lis(auth_name, auth_lists):
+def get_author_positions_lis(auth_name: str, auth_lists: List[List]) -> List[str]:
     ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
     author_positions_lis = []
 
@@ -141,12 +143,12 @@ def get_author_positions_lis(auth_name, auth_lists):
     return author_positions_lis
 
 
-def get_pos_dfs(pos_lis, num_lis):
+def get_pos_dfs(pos_lis: List[str], num_lis: List[int]) -> dict:
     citations_positions_df = pd.DataFrame(list(zip(pos_lis, num_lis)), columns =['positions', 'citations']) 
     return dict(tuple(citations_positions_df.groupby('positions')))
 
 
-def get_hindexes_dict(dataframes):
+def get_hindexes_dict(dataframes: dict) -> dict:
     hindexes_dict = {}
     
     for k, df in dataframes.items():
@@ -163,7 +165,7 @@ def get_hindexes_dict(dataframes):
     return hindexes_dict
 
 
-def get_counts_dicts(pos_lis, num_lis):
+def get_counts_dicts(pos_lis: List[str], num_lis: List[int]) -> dict:
     d1 = {}
     d2 = {}
 
