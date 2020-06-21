@@ -118,7 +118,29 @@ def get_author_positions_lis(auth_name: str, auth_lists: List[List]) -> List[str
 
     for names in auth_lists:
         try: 
-            match = process.extractOne(auth_name, names, score_cutoff=75)[0]
+            matches = process.extract(auth_name, names, limit=2)
+
+            if matches:
+                # make sure they're not too far off origianl name
+                if matches[0][1] > 74:
+                    
+                    if len(matches) == 2:
+                        # if one's better, take that one
+                        if matches[0][1] > matches[1][1]:
+                            match = matches[0][0]
+                
+                        else:
+                            full_name_lis = auth_name.split()
+                            last_name = full_name_lis.pop()
+                            initials = "".join([name[0] for name in full_name_lis])
+                            shortened_auth_name = initials + " " + last_name
+                            match = process.extractOne(shortened_auth_name, [name[0] for name in matches])[0]
+                    else:
+                        match = matches[0][0]
+                else:
+                    match = None
+            else:
+                match = None
         except TypeError: 
             match = None
 
@@ -129,14 +151,12 @@ def get_author_positions_lis(auth_name: str, auth_lists: List[List]) -> List[str
                     if i == len(names)-1 and i > 2:
                         author_positions_lis.append('last')
                     elif i > 4:
-                        # author_positions_lis.append('6th or more')
                         author_positions_lis.append('≥ 6th')
                     else:
                         author_positions_lis.append(ordinal(i+1))
                     break
         else:
             if len(names) > 4:
-                # author_positions_lis.append('6th or more')
                 author_positions_lis.append('≥ 6th')
             else:
                 author_positions_lis.append(ordinal(len(names)))
