@@ -1,5 +1,6 @@
 ## TODO:
 
+<!-- - switch from doing bs4 scraping on cloud run to the dashboard on app engine -->
 - write tests for everything
 - make more OOP (Classes)
 - more descriptive iterator var names

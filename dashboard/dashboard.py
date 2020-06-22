@@ -81,7 +81,7 @@ if input_url:
                 """
                 ⚠️ **Disclaimer**: 
                 - This app inherits any shortcomings in the way Google Scholar indexes publication records and citations (e.g., total publication counts include items other than peer-reviewed articles, such as conference abstracts; e.g., citation counts may include citations by indexed items that are not peer reviewed).
-                - Google Scholar profiles truncate the list of co-authors for each publication, so "last author" stats may be innacurate for some profiles.
+                - Google Scholar profiles truncate author lists for publications with ~6+ authors, so "last author" stats represent a lower bound for any author having ≥1 publication with ~6+ authors.
                 - This app abides by Google’s [Terms of Service](https://policies.google.com/terms?hl=en-US) and is not to be used in any such manner that violates these terms. The user of this app is granted nonexclusive, personal non-profit use.
 
                 ✉️ **Contact**:
