@@ -46,13 +46,18 @@ def scrape():
         return jsonify({"message": "Could not find author's current role."})
 
     try:
-        authors_list = extract_author_names_of_papers(page)
-        citations_list = extract_citation_counts(page)
+        pubs_data = get_publications_data(page)
+    except:
+        return jsonify({"message": "Could not extract publications data."})
+
+    try:
+        authors_list = [pub["authors"] for pub in pubs_data]
+        citations_list = [pub["citations"] for pub in pubs_data]
 
         if len(authors_list)==0 or len(citations_list)==0:
             return jsonify({"message": "Either no author positions or no citations found."})
     except:
-        return jsonify({"message": "Could not find author positions or citations."})
+        return jsonify({"message": "Could not get positions or citations."})
     
     try:
         auth_pos_lis = get_author_positions_lis(author_name, authors_list)

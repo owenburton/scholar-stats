@@ -68,48 +68,43 @@ def get_author_role(page: BeautifulSoup) -> str:
     return role_list[0]
 
 
-def extract_author_names_of_papers(page: BeautifulSoup) -> List[List]:
-    """Gets list of co-authors for each publication.
-
-    Arguments:
-        page {BeautifulSoup object} -- nested data structure of html
-
-    Returns:
-        list -- groups of names
-    """
-    # get authors of each paper
-    authors_journals = []
-    for auth in page.find_all("div", attrs={"class": "gs_gray"}):
-        authors_journals.append(auth.text)
+def get_publications_data(page: BeautifulSoup) -> List[dict]:
+    pubs_data = []
+    for tr in page.find_all("tr", attrs={"class": "gsc_a_tr"}):
+        # check if it contains an attribute specific to duplicates
+        if tr.find_all("a")[1].has_attr("data-eud"):
+            continue
         
-    # remove extra gs_gray classes found (the journal names)
-    authors_list = [text for index, text in enumerate(authors_journals) if index % 2 == 0]
-
-    # make lists of each group of names
-    author_lists = [names_str.split(", ") for names_str in authors_list]
-
-    return author_lists
-
-
-def extract_citation_counts(page: BeautifulSoup) -> List[int]:
-    """Gets list of citation counts for each publication.
-
-    Arguments:
-        page {BeautifulSoup object} -- nested data structure of html
-
-    Returns:
-        list -- citation counts for each listed publication
-    """
-    # get citations for each paper 
-    citations_list = []
-    for td in page.find_all("td", attrs={"class": "gsc_a_c"}):
-        citation = td.find("a").contents
-        citations_list.append(citation)
-
-    # format citations
-    citations_list = [int(citation[0]) if len(citation)==1 else 0 for citation in citations_list]
-
-    return citations_list
+        else:
+            td1, td2, td3 = tr.find_all("td")
+            
+            authors = td1.find("div").contents
+            if len(authors) < 1:
+                continue
+            else:
+                authors = authors[0].split(", ")
+                authors = [name for name in authors if name!="..."]
+            
+            citations = td2.find("a").contents
+            if len(citations) < 1:
+                continue
+            else:
+                citations = int(citations[0])
+                
+            year = td3.find("span").contents    
+            if len(year) < 1:
+                year = None
+            else:
+                year = int(year[0])
+            
+            data = {
+                "authors": authors, 
+                "citations": citations, 
+                "year": year
+            }
+            pubs_data.append(data)
+        
+    return pubs_data
 
 
 def get_author_positions_lis(auth_name: str, auth_lists: List[List]) -> List[str]:
