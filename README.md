@@ -1,7 +1,6 @@
 ## TODO:
 
 <!-- - switch from doing bs4 scraping on cloud run to the dashboard on app engine -->
-- get user ip & headers to use w/ selenium, so Cloud Run server doesn't get blocked
 
 - write tests for everything
 - make more OOP (Classes)
@@ -11,14 +10,13 @@
 - ask for code reviews
 
 ## MAYBE:
+- get user ip & headers to use w/ selenium, so Cloud Run server doesn't get blocked
+
+- maybe year slider
 
 - change favicon & website title (currently unsupported by streamlit)
 - https://github.com/streamlit/streamlit/issues/1006
 
-- add in a slider to sort by year
-- summarize most impactful work (T5 summarization)
-
 - add author picture
 - have them just type in a name, then choose one from dropdown
-- add a cache of scholar data for fast lookups
 
