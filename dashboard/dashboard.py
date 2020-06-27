@@ -70,6 +70,9 @@ if input_url:
             df["portion_of_citations"] = (100 * df.citations / df.citations.sum()).round(0)
             df.portion_of_citations = df.portion_of_citations / 100
 
+            # Display year slider
+            # st.slider(label="Set year range")
+
             # Display chart
             citations_chart = make_chart(df[["positions", "portion_of_citations"]])
             st.altair_chart(citations_chart, use_container_width=True)
