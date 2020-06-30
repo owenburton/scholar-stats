@@ -83,7 +83,7 @@ def get_publications_data(page: BeautifulSoup) -> List[dict]:
                 continue
             else:
                 authors = authors[0].split(", ")
-                authors = [name for name in authors if name!="..."]
+                # authors = [name for name in authors if name!="..."]
             
             citations = td2.find("a").contents
             if len(citations) < 1:
@@ -163,12 +163,11 @@ def get_pos_dfs(pos_lis: List[str], num_lis: List[int]) -> dict:
     return dict(tuple(citations_positions_df.groupby('positions')))
 
 
-def get_hindexes_dict(dataframes: dict) -> dict:
+def get_hindexes(dataframes: dict) -> dict:
     hindexes_dict = {}
     
     for k, df in dataframes.items():
         df.sort_values('citations')
-        df.index += 1
         df = df.reset_index()
         df = df.query('citations >= index')
         # checking if there are no citations
@@ -176,8 +175,21 @@ def get_hindexes_dict(dataframes: dict) -> dict:
             hindexes_dict[k] = 0
         else:
             hindexes_dict[k] = df.shape[0]
+
+    overall_dict = {}
+    for k, df in dataframes.items():
+        df.sort_values('citations')
+        df.index += 1
+        df = df.reset_index()
+        df = df.query('citations >= index')
+        # checking if there are no citations
+        if df.shape[0] <= 0:
+            overall_dict[k] = 0
+        else:
+            overall_dict[k] = df.shape[0]
+    overall_hindex = sum(overall_dict.values())
         
-    return hindexes_dict
+    return hindexes_dict, overall_hindex
 
 
 def get_counts_dicts(pos_lis: List[str], num_lis: List[int]) -> dict:

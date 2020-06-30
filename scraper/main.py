@@ -70,7 +70,7 @@ def scrape():
         return jsonify({"message": "Couldn't get citations by position dataframes."})
     
     try:
-        hindexes_dict = get_hindexes_dict(dfs)
+        hindexes_dict, overall_hindex = get_hindexes(dfs)
     except:
         return jsonify({"message": "Couldn't get the h-indexes dictionary."})
 
@@ -82,6 +82,7 @@ def scrape():
     response = {
         "name": author_name,
         "role": role,
+        "overall_hindex": overall_hindex,
         "hindexes": hindexes_dict, 
         "positions": positions, 
         "citations": citations

@@ -17,7 +17,8 @@ st.write(
     """
     )
 
-example_url = "https://scholar.google.com/citations?user=5Iqe53IAAAAJ&hl=en&oi=ao"
+example_url = "https://scholar.google.com/citations?user=5Iqe53IAAAAJ&amp;hl=en&amp;inst=5746887945952177237&amp;oi=ao"
+
 input_url = st.text_input(
     "Copy & paste the URL of a profile from Google Scholar",
     example_url)
@@ -30,9 +31,8 @@ if input_url:
 
         # Check if any errors during scraping 
         if "name" in response:
-            positions, hindexes, citations = response["positions"], response["hindexes"], response["citations"]
+            positions, overall_hindex, citations = response["positions"], response["overall_hindex"], response["citations"]
 
-            overall_hindex = sum(hindexes.values())
             total_citations = sum(citations.values())
 
             # Get overall stats and author info
@@ -53,6 +53,8 @@ if input_url:
                 ordered_positions.move_to_end('last')
             if 'last' in ordered_citations:
                 ordered_citations.move_to_end('last')
+
+            hindexes = response["hindexes"]
 
             positions = list(ordered_citations.keys())
             hindex_vals = list(hindexes.values())
