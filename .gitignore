@@ -2,4 +2,3 @@
 # why won't it ignore pycache?
 __pycache__/
 .ipynb_checkpoints
-*.mp4
